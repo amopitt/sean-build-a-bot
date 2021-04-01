@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     bindImageSrc(part) {
-      return `http://localhost:8085/${this.selectedRobot[part].src}`;
+      return `http://localhost:8085${this.selectedRobot[part].src}`;
     },
     ...mapActions("robots", ["getParts", "addRobotToCart"]),
     addToCart() {

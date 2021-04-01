@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     bindImageSrc() {
-      return `http://localhost:8085/${this.selectedPart.src}`;
+      return `http://localhost:8085${this.selectedPart.src}`;
     },
     showPartInfo() {
       this.$router.push({
