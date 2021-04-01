@@ -4,15 +4,15 @@
       <CollapsibleSection>
         <div class="preview-content">
           <div class="top-row">
-            <img :src="selectedRobot.head.src" />
+            <img :src="bindImageSrc('head')" />
           </div>
           <div class="middle-row">
-            <img :src="selectedRobot.leftArm.src" class="rotate-left" />
-            <img :src="selectedRobot.torso.src" />
-            <img :src="selectedRobot.rightArm.src" class="rotate-right" />
+            <img :src="bindImageSrc('leftArm')" class="rotate-left" />
+            <img :src="bindImageSrc('torso')" />
+            <img :src="bindImageSrc('rightArm')" class="rotate-right" />
           </div>
           <div class="bottom-row">
-            <img :src="selectedRobot.base.src" />
+            <img :src="bindImageSrc('base')" />
           </div>
         </div>
       </CollapsibleSection>
@@ -106,6 +106,9 @@ export default {
     },
   },
   methods: {
+    bindImageSrc(part) {
+      return `http://localhost:8085/${this.selectedRobot[part].src}`;
+    },
     ...mapActions("robots", ["getParts", "addRobotToCart"]),
     addToCart() {
       const robot = this.selectedRobot;

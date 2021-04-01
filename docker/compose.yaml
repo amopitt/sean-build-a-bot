@@ -1,0 +1,26 @@
+version: "3.8"
+
+networks:
+  shared-network:
+    driver: bridge
+
+services:
+  build-a-bot-api:
+    container_name: build-a-bot-api
+    networks:
+      - shared-network
+    image: build-a-bot-api:1.0
+    ports:
+      - 8085:8085 # CRUD API
+
+  build-a-bot-web:
+    container_name: build-a-bot-web
+    networks:
+      - shared-network
+    image: build-a-bot-web:1.0
+    ports:
+      - 8081:80 # Web
+    environment:
+      - NGINX_PORT=80
+    depends_on:
+      - build-a-bot-api
