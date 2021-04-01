@@ -6,7 +6,7 @@
         params: { id: this.selectedPart.id, partType: this.selectedPart.type },
       }"
     >
-      <img :src="selectedPart.src" title="arm" />
+      <img :src="bindImageSrc()" title="arm" />
     </router-link>
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
@@ -58,6 +58,9 @@ export default {
     this.emitSelectedPart();
   },
   methods: {
+    bindImageSrc() {
+      return `http://localhost:8085/${this.selectedPart.src}`;
+    },
     showPartInfo() {
       this.$router.push({
         name: "Parts",
