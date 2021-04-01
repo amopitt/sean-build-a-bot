@@ -1,0 +1,14 @@
+version: "3.8"
+
+networks:
+  shared-network:
+    driver: bridge
+
+services:
+  build-a-bot-api:
+    container_name: build-a-bot-api
+    networks:
+      - shared-network
+    image: build-a-bot-api:1.0
+    ports:
+      - 8085:8085 # CRUD API

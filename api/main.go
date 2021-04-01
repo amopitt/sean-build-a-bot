@@ -19,11 +19,6 @@ func main() {
 	http.Handle("/api/parts", handlers.HandleParts(mw))
 	http.Handle("/api/cart", handlers.HandleCart(mw))
 
-	// serve images
-	// https://divyanshushekhar.com/golang-server-static-files/
-	//fileServer := http.FileServer((http.Dir("./images")))
-	//http.Handle("/api/images/", http.StripPrefix("/api/images", fileServer))
-
 	fmt.Printf("Listening on port %s\n", port)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
