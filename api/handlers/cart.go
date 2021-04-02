@@ -19,7 +19,7 @@ func CartFunction(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HandleCart(mw []middleware.Middleware) http.Handler {
+func HandleCart(mw *[]middleware.Middleware) http.Handler {
 	cartHandler := http.HandlerFunc(CartFunction)
 	return middleware.WrapMiddleware(mw, cartHandler)
 }

@@ -10,7 +10,7 @@ func SignInFunction(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func HandleSignIn(mw []middleware.Middleware) http.Handler {
+func HandleSignIn(mw *[]middleware.Middleware) http.Handler {
 	// sign in
 	signInHandler := http.HandlerFunc(SignInFunction)
 	return middleware.WrapMiddleware(mw, signInHandler)

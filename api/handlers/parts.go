@@ -23,7 +23,7 @@ func PartsFunction(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HandleParts(mw []middleware.Middleware) http.Handler {
+func HandleParts(mw *[]middleware.Middleware) http.Handler {
 	// sign in
 	partsHandler := http.HandlerFunc(PartsFunction)
 	return middleware.WrapMiddleware(mw, partsHandler)
