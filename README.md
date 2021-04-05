@@ -16,3 +16,8 @@ docker build -f web/docker/Dockerfile -t build-a-bot-web:1.0 --build-arg BUILD_D
 ```
 docker-compose -f docker/compose.yaml up
 ```
+
+## Makefile
+Make file variables and default values, pass these in when calling make, e.g. make image IMAGE_REPO=blah/foo
+
+

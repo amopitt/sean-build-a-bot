@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
         - name: build-a-bot
-          image: build-a-bot-web:1.0
+          image: localhost:32000/build-a-bot-web:registry
+          #image: build-a-bot-web:1.0
           ports:
             - containerPort: 80
           livenessProbe:
