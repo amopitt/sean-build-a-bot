@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: build-a-bot
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: build-a-bot
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: build-a-bot
+        tier: frontend
+    spec:
+      containers:
+        - name: build-a-bot
+          image: build-a-bot-web:1.0
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 1

@@ -12,6 +12,7 @@ import RobotTorsos from "../parts/RobotTorsos.vue";
 import SidebarStandard from "../sidebars/SidebarStandard.vue";
 import SidebarBuild from "../sidebars/SidebarBuild.vue";
 import ShoppingCart from "../cart/ShoppingCart.vue";
+import FormQuestions from "../form/FormQuestions.vue";
 
 Vue.use(Router);
 
@@ -58,6 +59,11 @@ export default new Router({
       path: "/cart",
       name: "Cart",
       component: ShoppingCart
+    },
+    {
+      path: "/form",
+      name: "Form",
+      component: FormQuestions
     }
   ]
 });

@@ -20,6 +20,11 @@
               Build
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'Form' }" exact>
+              Form
+            </router-link>
+          </li>
           <li class="nav-item cart">
             <router-link class="nav-link" :to="{ name: 'Cart' }" exact>
               Cart
