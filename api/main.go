@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+	"sync/atomic"
+	"time"
 
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/handlers"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/middleware"
@@ -17,6 +20,21 @@ func main() {
 	http.Handle("/api/images/", http.StripPrefix("/api/images", handlers.HandleImages(mw)))
 	http.Handle("/api/parts", handlers.HandleParts(mw))
 	http.Handle("/api/cart", handlers.HandleCart(mw))
+
+	// health check
+	http.Handle("/api/health", handlers.HandleHealthCheck(mw))
+
+	isReady := &atomic.Value{}
+	isReady.Store(false)
+
+	go func() {
+		log.Printf("Readyz probe is negative by default...")
+		time.Sleep(10 * time.Second)
+		isReady.Store(true)
+		log.Printf("Readyz probe is positive.")
+	}()
+
+	http.Handle("/api/ready", handlers.HandleReadyCheck(isReady, mw))
 
 	port := os.Getenv("PORT")
 	if port == "" {

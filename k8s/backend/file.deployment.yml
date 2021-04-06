@@ -28,11 +28,19 @@ spec:
                 configMapKeyRef:
                   name: backend-app-settings
                   key: PORT
-          # livenessProbe:
-          #   httpGet:
-          #     path: /index.html
-          #     port: 80
-          #   initialDelaySeconds: 15
-          #   timeoutSeconds: 2
-          #   periodSeconds: 5
-          #   failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8085
+            initialDelaySeconds: 15 # The initialDelaySeconds field tells the kubelet that it should wait 5 seconds before performing the first probe.
+            timeoutSeconds: 2 # Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1.
+            periodSeconds: 5 # The periodSeconds field specifies that the kubelet should perform a liveness probe every 5 seconds.
+            failureThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /api/ready
+              port: 8085
+            initialDelaySeconds: 15 # The initialDelaySeconds field tells the kubelet that it should wait 5 seconds before performing the first probe.
+            timeoutSeconds: 2 # Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1.
+            periodSeconds: 5 # The periodSeconds field specifies that the kubelet should perform a liveness probe every 5 seconds.
+
