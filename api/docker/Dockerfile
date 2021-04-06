@@ -14,7 +14,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 COPY --from=build-a-bot-api /build-a-bot/api/. /service/build-a-bot-api/.
 WORKDIR /service/build-a-bot-api
-CMD ["./build-a-bot-api"]
+CMD ["./build-a-bot-api"] 
 
 LABEL org.opencontainers.image.created="${BUILD_DATE}" \
     org.opencontainers.image.title="build-a-bot-api" \
