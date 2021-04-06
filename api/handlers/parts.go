@@ -10,7 +10,7 @@ import (
 func PartsFunction(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		partsJSON, err := ioutil.ReadFile("./data/parts.json")
+		partsJSON, err := ioutil.ReadFile("./database/parts.json")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

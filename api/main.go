@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/database"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/handlers"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/middleware"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/models"
@@ -16,53 +16,21 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "example"
-	dbname   = "postgres"
-)
-
 func main() {
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	isProd := os.Getenv("PRODUCTION")
+	if isProd != "" {
+		database.InitProdEnvironment()
+	}
+	db, err := database.SetupDatabase()
 
-	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
+
 	defer db.Close()
 
-	err = db.Ping()
-	if err != nil {
-		panic(err)
-	}
-
 	theStore := &models.Store{Db: db}
-
-	// Move this to somewhere else, just testing querying
-	rows, err := db.Query("SELECT order_id, robot_name, cost FROM orders")
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var (
-			order_id   int64
-			robot_name string
-			cost       float32
-		)
-		if err := rows.Scan(&order_id, &robot_name, &cost); err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("order_id %d robot_name is %s\n", order_id, robot_name)
-	}
 
 	fmt.Println("Successfully connected!")
 

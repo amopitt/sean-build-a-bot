@@ -12,6 +12,25 @@ import (
 
 func CartFunction(w http.ResponseWriter, r *http.Request, store *models.Store) {
 	switch r.Method {
+	case http.MethodGet:
+		results, err := store.Db.Query(`select cart_id, robot_name, cost, created_on from cart`)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		carts := make([]models.Cart, 0)
+		for results.Next() {
+			var cart models.Cart
+			results.Scan(&cart.CartId, &cart.RobotName, &cart.Cost, &cart.CreatedOn)
+			carts = append(carts, cart)
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		encoder := json.NewEncoder(w)
+		encoder.Encode(carts)
+
+		// ordersJSON, _ := json.Marshal(orders)
+		// w.Header().Set("Content-Type", "application/json")
+		// w.Write(ordersJSON)
 	case http.MethodPost:
 
 		decoder := json.NewDecoder(r.Body)
@@ -24,9 +43,9 @@ func CartFunction(w http.ResponseWriter, r *http.Request, store *models.Store) {
 
 		fmt.Println(cart.RobotName)
 		sqlStatement := `
-		INSERT INTO orders (robot_name, cost, created_on) 
+		INSERT INTO cart (robot_name, cost, created_on) 
 		VALUES ($1, $2, $3)
-		RETURNING order_id
+		RETURNING cart_id
 		`
 		id := 0
 		err = store.Db.QueryRow(sqlStatement, cart.RobotName, cart.Cost, time.Now()).Scan(&id)
