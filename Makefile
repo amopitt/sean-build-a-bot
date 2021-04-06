@@ -15,6 +15,17 @@ push:  ## 📤 Push container image to registry
 	docker push $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
 
 ## k8s
+run_postgres:
+	kubectl apply -f k8s/postgres/pg.secret.yml
+	kubectl apply -f k8s/postgres/pg.persistentvolume.yml 
+	kubectl apply -f k8s/postgres/pg.deployment.yml
+	kubectl apply -f k8s/postgres/pg.service.yml
+
+teardown_postgres:
+	kubectl delete secret postgres-secret
+	kubectl delete service build-a-bot-postgres
+	kubectl delete deployment build-a-bot-postgres
+
 run_api:
 	kubectl apply -f k8s/backend/file.configmap.yml
 	kubectl apply -f k8s/backend/file.deployment.yml
@@ -23,7 +34,7 @@ run_api:
 run_web:
 	kubectl apply -f k8s/frontend/file.configmap.yml
 	kubectl apply -f k8s/frontend/file.deployment.yml
-	kubectl apply -f k8s/frontend/file.service.nodeport.yml
+	kubectl apply -f k8s/frontend/file.service.nodeport.yml 
 
 teardown_web:
 	kubectl delete service frontend

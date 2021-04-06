@@ -1,0 +1,14 @@
+apiVersion: v1                                      # API version
+kind: Service                                       # Type of kubernetes resource 
+metadata:
+  name: build-a-bot-postgres                        # Name of the resource
+  labels:                                           # Labels that will be applied to the resource
+    app: build-a-bot-postgres
+    tier: postgres
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:                                         # Selects any Pod with labels `app=fullstack-postgres,tier=postgres`
+    app: build-a-bot-postgres
+    tier: postgres
