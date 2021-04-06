@@ -50,6 +50,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 
+console.log("VUE APP API PORT", process.env.VUE_APP_API_PORT);
 export default {
   name: "App",
   computed: {

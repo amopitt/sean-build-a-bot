@@ -17,15 +17,16 @@ export default {
   },
   actions: {
     getParts({ commit }) {
+      console.log(process.env.VUE_APP_API_URL);
       axios
-        .get("http://localhost:8085/api/parts")
+        .get(`${process.env.VUE_APP_API_URL}/api/parts`)
         .then((result) => commit("updateParts", result.data))
         .catch(console.error);
     },
     addRobotToCart({ commit, state }, robot) {
       const cart = [...state.cart, robot];
       return axios
-        .post("http://localhost:8085/api/cart", cart)
+        .post(`${process.env.VUE_APP_API_URL}/api/cart`, cart)
         .then(() => commit("addRobotToCart", robot))
         .catch(console.error);
     }

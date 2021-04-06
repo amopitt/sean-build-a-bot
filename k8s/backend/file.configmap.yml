@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-app-settings
+  labels:
+    app: build-a-bot
+    tier: backend
+data:
+  PORT: "8085"
+  DB_USERNAME: "postgres"
+  DB_PASSWORD: "example"

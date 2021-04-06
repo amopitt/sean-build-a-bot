@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     bindImageSrc() {
-      return `http://localhost:8085${this.selectedPart.src}`;
+      return `${process.env.VUE_APP_API_URL}${this.selectedPart.src}`;
     },
     showPartInfo() {
       this.$router.push({

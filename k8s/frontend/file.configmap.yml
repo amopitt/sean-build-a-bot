@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-app-settings
+  labels:
+    app: build-a-bot
+    tier: frontend
+data:
+  VUE_APP_API_URL: "http://localhost:31705"

@@ -20,7 +20,7 @@ export default {
   actions: {
     signIn({ commit }) {
       axios
-        .post("http://localhost:8085/api/sign-in")
+        .post(`${process.env.VUE_APP_API_URL}/api/sign-in`)
         .then((result) => commit("updateCurrentUser", result.data))
         .catch(console.error);
     }
