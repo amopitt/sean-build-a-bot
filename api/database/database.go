@@ -28,7 +28,8 @@ func InitProdEnvironment() {
 }
 
 func SetupDatabase() (*sql.DB, error) {
-
+	fmt.Printf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
+		host, port, user, password, dbname)
 	p, _ := strconv.Atoi(port)
 	psqlInfo := fmt.Sprintf(`host=%s port=%d user=%s password=%s dbname=%s sslmode=disable`,
 		host, p, user, password, dbname)

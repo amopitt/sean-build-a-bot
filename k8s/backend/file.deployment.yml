@@ -22,12 +22,9 @@ spec:
           #image: build-a-bot-api:1.0
           ports:
             - containerPort: 8085
-          env:
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-app-settings
-                  key: PORT
+          envFrom:
+            - configMapRef:
+                name: backend-app-settings 
           livenessProbe:
             httpGet:
               path: /api/health

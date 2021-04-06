@@ -6,6 +6,9 @@ metadata:
     app: build-a-bot
     tier: backend
 data:
-  PORT: "8085"
+  PRODUCTION: "Y"
+  DB_HOST: "build-a-bot-postgres"
+  DB_PORT: "5432"
   DB_USERNAME: "postgres"
   DB_PASSWORD: "example"
+  DB_NAME: "postgres"
