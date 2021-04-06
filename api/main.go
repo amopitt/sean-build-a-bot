@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,16 +11,67 @@ import (
 
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/handlers"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/middleware"
+	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/models"
+
+	_ "github.com/lib/pq"
+)
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "example"
+	dbname   = "postgres"
 )
 
 func main() {
+
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	theStore := &models.Store{Db: db}
+
+	// Move this to somewhere else, just testing querying
+	rows, err := db.Query("SELECT order_id, robot_name, cost FROM orders")
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var (
+			order_id   int64
+			robot_name string
+			cost       float32
+		)
+		if err := rows.Scan(&order_id, &robot_name, &cost); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("order_id %d robot_name is %s\n", order_id, robot_name)
+	}
+
+	fmt.Println("Successfully connected!")
 
 	mw := &[]middleware.Middleware{middleware.CorsMiddleware, middleware.LoggingMiddleware}
 
 	http.Handle("/api/sign-in", handlers.HandleSignIn(mw))
 	http.Handle("/api/images/", http.StripPrefix("/api/images", handlers.HandleImages(mw)))
 	http.Handle("/api/parts", handlers.HandleParts(mw))
-	http.Handle("/api/cart", handlers.HandleCart(mw))
+	http.Handle("/api/cart", handlers.HandleCart(mw, theStore))
 
 	// health check
 	http.Handle("/api/health", handlers.HandleHealthCheck(mw))
@@ -43,7 +95,7 @@ func main() {
 	}
 
 	fmt.Printf("Listening on port %s\n", port)
-	err := http.ListenAndServe(":"+port, nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}
