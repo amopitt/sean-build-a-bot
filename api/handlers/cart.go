@@ -38,7 +38,9 @@ func CartFunction(w http.ResponseWriter, r *http.Request, store *models.Store) {
 		err := decoder.Decode(&cart)
 
 		if err != nil {
+			fmt.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 
 		fmt.Println(cart.RobotName)
@@ -54,6 +56,7 @@ func CartFunction(w http.ResponseWriter, r *http.Request, store *models.Store) {
 		}
 		fmt.Println("New record ID is:", id)
 		w.WriteHeader(http.StatusCreated)
+		return
 	case http.MethodOptions:
 		return
 	default:

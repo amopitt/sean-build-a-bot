@@ -25,8 +25,14 @@ export default {
     },
     addRobotToCart({ commit, state }, robot) {
       const cart = [...state.cart, robot];
+
+      const persistRobot = {
+        robot_name: robot.head.title,
+        cost: cart[0].cost.toString()
+      };
+
       return axios
-        .post(`${process.env.VUE_APP_API_URL}/api/cart`, cart)
+        .post(`${process.env.VUE_APP_API_URL}/api/cart`, persistRobot)
         .then(() => commit("addRobotToCart", robot))
         .catch(console.error);
     }

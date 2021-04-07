@@ -11,6 +11,10 @@ RUN echo "PWD is: $PWD"
 
 # Get hot reload package
 RUN go get github.com/cespare/reflex  
+ENTRYPOINT ["reflex", "-c", "/app/api/reflex.conf"]  
 
-ENTRYPOINT ["reflex", "-c", "/app/api/reflex.conf"] 
+# If want to run and debug into container, use this:
+#RUN go get github.com/go-delve/delve/cmd/dlv
+#EXPOSE 8085 2345
+#CMD ["dlv", "debug", "/app/api/", "--headless", "--listen=:2345", "--api-version=2", "--log"]
  

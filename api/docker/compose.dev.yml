@@ -13,6 +13,22 @@ services:
         target: /app/
     ports:
       - 8085:8085  
+      - 2345:2345 # debugging endpoint
+  web:
+    build:
+      context: ../../
+      dockerfile: web/docker/Dockerfile.dev
+    working_dir: /app/web 
+    volumes:
+      - type: bind
+        source: ../../web
+        target: /app/web
+    environment:
+      - npm_config_unsafe_perm=true
+    ports:
+      - 4000:8080   
+    depends_on:
+      - server
   db:
     image: postgres
     restart: always
