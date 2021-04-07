@@ -8,27 +8,29 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/database"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/handlers"
 	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/middleware"
+	"github.com/amopitt/sean-build-a-bot/api/build-a-bot-api/models"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
 
-	// isProd := os.Getenv("PRODUCTION")
-	// if isProd != "" {
-	// 	database.InitProdEnvironment()
-	// }
-	// db, err := database.SetupDatabase()
+	isProd := os.Getenv("PRODUCTION")
+	if isProd != "" {
+		database.InitProdEnvironment()
+	}
+	db, err := database.SetupDatabase()
 
-	// if err != nil {
-	// 	panic(err)
-	// }
+	if err != nil {
+		panic(err)
+	}
 
-	// defer db.Close()
+	defer db.Close()
 
-	// theStore := &models.Store{Db: db}
+	theStore := &models.Store{Db: db}
 
 	fmt.Println("Successfully connected!!!!")
 
@@ -37,7 +39,7 @@ func main() {
 	http.Handle("/api/sign-in", handlers.HandleSignIn(mw))
 	http.Handle("/api/images/", http.StripPrefix("/api/images", handlers.HandleImages(mw)))
 	http.Handle("/api/parts", handlers.HandleParts(mw))
-	//http.Handle("/api/cart", handlers.HandleCart(mw, theStore))
+	http.Handle("/api/cart", handlers.HandleCart(mw, theStore))
 
 	// health check
 	http.Handle("/api/health", handlers.HandleHealthCheck(mw))
@@ -61,7 +63,7 @@ func main() {
 	}
 
 	fmt.Printf("!Listening on port %s\n", port)
-	err := http.ListenAndServe(":"+port, nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}

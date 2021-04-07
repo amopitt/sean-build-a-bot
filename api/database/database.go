@@ -12,7 +12,7 @@ type Asdf struct {
 }
 
 var (
-	host     = "localhost"
+	host     = "db"
 	port     = "5432"
 	user     = "postgres"
 	password = "example"

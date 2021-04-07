@@ -3,6 +3,12 @@ IMAGE_REG ?= localhost:32000
 IMAGE_REPO ?= build-a-bot-web
 IMAGE_TAG ?= latest
 
+api_up:
+	docker-compose -f ./api/docker/compose.dev.yml up --build
+
+api_down:
+	docker-compose -f ./api/docker/compose.dev.yml down --rmi local
+
 image_web: ## 🔨 Build container image from Dockerfile 
 	docker build . --no-cache --file web/docker/Dockerfile \
 	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
