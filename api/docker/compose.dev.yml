@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  server:
+    build:
+      context: ../../
+      dockerfile: api/docker/Dockerfile.dev
+    working_dir: /app/api
+    volumes:
+      - type: bind
+        source: ../../
+        target: /app/
+    ports:
+      - 8085:8085  

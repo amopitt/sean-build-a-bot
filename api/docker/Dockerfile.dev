@@ -1,0 +1,16 @@
+FROM golang:1.16 as app-api
+ENV CGO_ENABLED 0
+ARG VCS_REF
+ 
+WORKDIR /app/
+
+# Copy the source code into the container
+COPY . .  
+
+RUN echo "PWD is: $PWD" 
+
+# Get hot reload package
+RUN go get github.com/cespare/reflex  
+
+ENTRYPOINT ["reflex", "-c", "/app/api/reflex.conf"] 
+ 

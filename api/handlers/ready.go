@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"sync/atomic"
 
@@ -10,6 +11,8 @@ import (
 // ReadyCheck is a readiness probe.
 func ReadyCheckFunction(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
+
+	fmt.Fprintf(w, "Welcome to the HomePage!")
 }
 
 func HandleReadyCheck(isReady *atomic.Value, mw *[]middleware.Middleware) http.Handler {
@@ -20,6 +23,7 @@ func HandleReadyCheck(isReady *atomic.Value, mw *[]middleware.Middleware) http.H
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "Ready spaghetti!")
 	}
 
 	readyCheckHandler := http.HandlerFunc(readyCheckFunction)
