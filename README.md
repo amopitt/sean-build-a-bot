@@ -1,5 +1,7 @@
 # Api
 
+Test
+
 ## Docker Image
 
 ### run from sean-build-a-bot root folder
@@ -18,9 +20,11 @@ docker-compose -f docker/compose.yaml up
 ```
 
 ## Makefile
+
 Make file variables and default values, pass these in when calling make, e.g. make image IMAGE_REPO=blah/foo
 
 ### Build images and push them to microk8s local registry and run both containers and pods
+
 ```
 # backend api
 sudo make image_api IMAGE_REPO=build-a-bot-api
@@ -39,10 +43,9 @@ sudo make teardown_web
 ```
 
 ## Logs
+
 ```
 sudo kubectl logs deployment/backend
 sudo kubectl logs deployment/frontend
 
 ```
-
-
