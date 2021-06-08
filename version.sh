@@ -30,6 +30,8 @@ NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
 #only tag if no tag already
 #to publish, need to be logged in to npm, and with clean working directory: `npm login; git stash`
 if [ -z "$NEEDS_TAG" ]; then
+  git config --local user.email "action@github.com"
+  git config --local user.name "GitHub Action"
   git tag -a $NEW_TAG
   git push origin $NEW_TAG
 else
