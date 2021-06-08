@@ -18,11 +18,6 @@ NEW_TAG="$VNUM1.$VNUM2.$VNUM3.$VNUM4"
 
 echo "Updating $VERSION to $NEW_TAG"
 
-
-#create new tag
-NEW_TAG="$VNUM1.$VNUM2.$VNUM3"
-echo "($VERSION) updating $CURRENT_VERSION to $NEW_TAG"
-
 #get current hash and see if it already has a tag
 GIT_COMMIT=`git rev-parse HEAD`
 NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
@@ -32,7 +27,7 @@ NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
 if [ -z "$NEEDS_TAG" ]; then
   git config --local user.email "action@github.com"
   git config --local user.name "GitHub Action"
-  git tag -a $NEW_TAG
+  git tag -a $NEW_TAG -m "Applying tag bump"
   git push origin $NEW_TAG
 else
   echo "Already a tag on this commit"
