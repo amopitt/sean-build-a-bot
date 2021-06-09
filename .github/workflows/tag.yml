@@ -11,4 +11,4 @@ jobs:
         with:
           fetch-depth: "0"
       - name: Bump version and push tag
-        run: ./version.sh
+        run: ./github/workflows/version.sh
